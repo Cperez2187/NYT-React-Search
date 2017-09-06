@@ -1,0 +1,8 @@
+.panel-primary>.panel-heading {
+  background-color: #b12c2c;
+}
+
+label {
+  font-size: 15px;
+  font-weight: bold;
+}
