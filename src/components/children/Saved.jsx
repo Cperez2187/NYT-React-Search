@@ -38,7 +38,9 @@ class Saved extends Component {
             </strong>
           </h3>
         </div>
-        {this.displaySavedArticles()}
+        <div className="panel-body saved-body">
+          {this.displaySavedArticles()}
+        </div>      
       </div>
     );
   }

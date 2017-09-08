@@ -6,6 +6,9 @@ import Search from './children/Search.jsx';
 import Results from './children/Results.jsx';
 import Saved from './children/Saved.jsx';
 
+// Import helper for making AJAX request to our API
+import helper from './utils/helper.js';
+
 export default class Main extends Component {
   constructor(props) {
     super(props);
@@ -28,9 +31,25 @@ export default class Main extends Component {
   /**
    * If the component state changes (i.e if a search is entered)...
    */
-  componentDidUpdate() {
-   
+  componentDidUpdate(prevProps, prevState) {
+
+    // Copy the 3 values we need from the state object
+    const { topic, startYear, endYear } = this.state;
+
+    // If any of the parameters have changed since the last search...
+    if (topic !== prevState.topic || startYear !== prevState.startYear || endYear !== prevState.endYear) {
+      // Create an object with the search parameters needed for the query
+      const searchParams = { topic, startYear, endYear };
+      // Run query to search for articles
+      helper.runQuery(searchParams).then(results => {
+        console.log('Results: ', results);
+        // Set 'state' results equal to results returned from query
+        this.setState({ results });
+      });
+    }
+    
   }
+  
   /**
    * This method allows child components to update the 
    * 'topic' state on this component
@@ -73,7 +92,7 @@ export default class Main extends Component {
         </div>
         <div className="row">
           <div className="col-sm-12">
-            <Route path="/results" render={() => <Results results={this.state.results} />} />
+            <Route path="/results" component={() => <Results results={this.state.results} />} />
           </div>
         </div>
         <div className="row">

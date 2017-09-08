@@ -1,8 +1,16 @@
-.panel-primary>.panel-heading {
+.panel-primary > .panel-heading {
   background-color: #b12c2c;
 }
 
 label {
   font-size: 15px;
   font-weight: bold;
+}
+
+.results-body > .well {
+  background-color: rgba(0, 150, 136, 0.18);
+}
+
+.saved-body > .well {
+  background-color: rgba(3, 169, 244, 0.13);
 }

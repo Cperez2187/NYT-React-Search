@@ -30,7 +30,7 @@ class Search extends Component {
     // clicking the button
     event.preventDefault();
     console.log('inside');
-    const stateCopy = this.State;
+    const stateCopy = Object.assign({}, this.state);
     // Update the state on the 'Main' component
     this.props.changeState(stateCopy);
     //push the new route ('/results') into the history stack in order to render 'Results component
@@ -56,7 +56,7 @@ class Search extends Component {
             </strong>
           </h3>
         </div>
-        <div className="panel-body">
+        <div className="panel-body search-body">
           <form role="form" onSubmit={this.handlesubmit}>
             <div className="form-group">
               <label htmlFor="topic">Topic:</label>
@@ -90,12 +90,10 @@ class Search extends Component {
                 required
               />
             </div>
-            <div className="col-sm-12 text-center">
-              
+            <div className="col-sm-12 text-center"> 
               <button className="btn btn-primary" type="submit">
                 Search
-              </button>
-              
+              </button>    
             </div>  
           </form>
         </div>
