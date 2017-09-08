@@ -21,7 +21,7 @@ export default class Main extends Component {
     };
 
     // Bind methods specific to this component
-    this.changeState = this.changeState.bind(this);
+    this.changeParameters = this.changeParameters.bind(this);
   }
   
   componentDidMount() {
@@ -54,7 +54,7 @@ export default class Main extends Component {
    * This method allows child components to update the 
    * 'topic' state on this component
    */
-  changeState(searchState) {
+  changeParameters(searchState) {
     console.log(searchState);
     const { topic, startYear, endYear } = searchState;
 
@@ -65,6 +65,14 @@ export default class Main extends Component {
     });
 
   }
+
+   // This method changes the 'saved' state
+   changeSavedArticles(savedArticles) {
+     
+    this.setState({ savedArticles });
+
+   }
+
 
   render() {
     return (
@@ -84,10 +92,10 @@ export default class Main extends Component {
           <div className="col-sm-12">
             {/** 
               * Render 'Search' component and pass
-              * 'changeState' method as a prop
+              * 'changeParameters' method as a prop
               */
             }
-            <Route render={() => <Search changeState = {this.changeState} />} />
+            <Route render={() => <Search changeParameters = {this.changeParameters} />} />
           </div> 
         </div>
         <div className="row">

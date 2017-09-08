@@ -30,9 +30,10 @@ class Search extends Component {
     // clicking the button
     event.preventDefault();
     console.log('inside');
+    // Copy the state object
     const stateCopy = Object.assign({}, this.state);
     // Update the state on the 'Main' component
-    this.props.changeState(stateCopy);
+    this.props.changeParameters(stateCopy);
     //push the new route ('/results') into the history stack in order to render 'Results component
     this.props.history.push('/results');
 
