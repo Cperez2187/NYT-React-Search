@@ -1,6 +1,6 @@
 const Article = require('../models/Article.js');
 
-module.exports = app => {
+module.exports = (app) => {
 
   // Main "/" Route. This will redirect the user to our rendered React application
   app.get("/", (req, res) => {
@@ -8,20 +8,22 @@ module.exports = app => {
   });
 
   // This is the route we will send GET requests to retrieve our most recent search data.
-  // We will call this route the moment our page gets rendered
+  // We will call this route the moment the 'Main' component gets mounted
   app.get("/api", (req, res) => {
 
-    // We will find all the records, sort it in descending order, then limit the records to 5
-    Article.find({}).sort([
-      ["date", "descending"]
-    ]).limit(5).exec((err, doc) => {
-      if (err) {
-        console.log(err);
-      }
-      else {
-        res.send(doc);
-      }
-    });
+    // We will find all the records, then sort it in descending order
+    Article.
+      find({}).
+      sort([["date", "descending"]]).
+      exec((err, savedArticles) => {
+        if (err) {
+          console.log(err);
+        }
+        else {
+          console.log(savedArticles);
+          res.send(savedArticles);
+        }
+      });
   });
 
   // This is the route we will send POST requests to save each search.
@@ -40,7 +42,7 @@ module.exports = app => {
         console.log(err);
       }
       else {
-        res.send("Saved Search");
+        console.log("Saved Search");
       }
     });
   });

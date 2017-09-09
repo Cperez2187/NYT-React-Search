@@ -1,16 +1,14 @@
-import React, { Component } from 'react';
+/**
+|--------------------------------------------------
+| Stateless Saved Component
+|--------------------------------------------------
+*/
+import React from 'react';
 
-class Saved extends Component {
-  constructor(props) {
-    super(props);
-    // Set state to equal results prop passed in from 'Main' component
-    this.state = { savedArticles: props.savedArticles };
+const Saved = (props) => {
 
-
-  }
-
-  displaySavedArticles() {
-    const savedArticles = this.state.savedArticles;
+  const displaySavedArticles = () => {
+    const savedArticles = props.savedArticles;
     // Check if there are no savedArticles...
     if (savedArticles.length === 0) {
       return (
@@ -22,28 +20,51 @@ class Saved extends Component {
       );
     }
 
-    // Otherwise return results to display
-    // const savedList = savedArticles.map()
-
-  }
-
-  render() {
-    return (
-      <div className="panel panel-primary">
-        <div className="panel-heading">
-          <h3 className="panel-title">
-            <strong>
-              <i className="fa fa-table"></i>
-              {" Saved Articles"}
-            </strong>
+    // Otherwise format the and return results to display
+    const savedList = savedArticles.map((article, index) => {
+      // Separate parameters needed from each article
+      const { _id, title, date, url } = article;
+      // Create JSX needed to display each article
+      return (
+        <div className="well" key={_id}>
+          <h3>
+            <span className="label label-primary">{index+1}</span>
+            <strong> {title}</strong>
           </h3>
+          <h5>Publication Date: {date}</h5>
+          <a href={url} target="_blank">Link To Article</a>
+          <div>
+            <button 
+              className="btn btn-info" 
+              type="button"
+              value={article}
+            >
+              Delete
+            </button>
+          </div>
         </div>
-        <div className="panel-body saved-body">
-          {this.displaySavedArticles()}
-        </div>      
+      );
+    });
+
+    return savedList;
+
+  };
+
+  return (
+    <div className="panel panel-primary">
+      <div className="panel-heading">
+        <h3 className="panel-title">
+          <strong>
+            <i className="fa fa-table"></i>
+            {" Saved Articles"}
+          </strong>
+        </h3>
       </div>
-    );
-  }
+      <div className="panel-body saved-body">
+        {displaySavedArticles()}
+      </div>      
+    </div>
+  );
   
 }
 

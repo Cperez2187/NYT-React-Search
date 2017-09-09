@@ -1,19 +1,36 @@
-import React, { Component } from 'react';
+/**
+|--------------------------------------------------
+| Stateless Results Component
+|--------------------------------------------------
+*/
+import React from 'react';
 
-class Results extends Component {
-  constructor(props) {
-    super(props);
-    // Set state
-    this.state = { results: props.results };
-  }
+const Results = (props) => {
 
-  displayResults() {
-    const results = this.props.results;
-    const formattedResults = results.map((article, index) => {
+  // When saved button is pressed...
+  const handleSavedclick = (event) => {
+    console.log('Inside click: ', event.target);
+    // Get index of article in results array
+    const index = parseInt(event.target.value.trim());
+    // Create object object with required article info to save
+    const { headline, pub_date, web_url } = props.results[index];
+    const articleToSave = {
+      title: headline.main,
+      date: pub_date,
+      url: web_url
+    };
+    console.log('Article to save: ', articleToSave);
+    // Save article
+    props.saveArticle(articleToSave);
 
-      const { _id, headline, pub_date, web_url } = article;
-      return (
-        <div className="well" key={_id}>
+  };
+  // Format the results to display correctly
+  const results = props.results;
+  const formattedResults = results.map((article, index) => {
+
+    const { _id, headline, pub_date, web_url } = article;
+    return (
+      <div className="well" key={_id}>
         <h3>
           <span className="label label-primary">{index+1}</span>
           <strong> {headline.main}</strong>
@@ -21,32 +38,36 @@ class Results extends Component {
         <h5>Publication Date: {pub_date}</h5>
         <a href={web_url} target="_blank">Link To Article</a>
         <div>
-          <button className="btn btn-info" type="button">Save</button>
-        </div>
-        
-        </div>
-      );
-    });
-    return formattedResults;
-  }
-
-  render() {
-    return (
-      <div className="panel panel-primary">
-        <div className="panel-heading">
-          <h3 className="panel-title">
-            <strong>
-              <i className="fa fa-table"></i>
-              {" Top Articles"}
-            </strong>
-          </h3>
-        </div>
-        <div className="panel-body results-body">
-          {this.displayResults()}
+          <button 
+            className="btn btn-info" 
+            type="button"
+            value={index}
+            onClick={handleSavedclick}
+          >
+            Save
+          </button>
         </div>
       </div>
     );
-  }
+  });
+
+ 
+
+  return (
+    <div className="panel panel-primary">
+      <div className="panel-heading">
+        <h3 className="panel-title">
+          <strong>
+            <i className="fa fa-table"></i>
+            {" Top Articles"}
+          </strong>
+        </h3>
+      </div>
+      <div className="panel-body results-body">
+        {formattedResults}
+      </div>
+    </div>
+  );
  
 };
 

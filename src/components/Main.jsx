@@ -21,11 +21,15 @@ export default class Main extends Component {
     };
 
     // Bind methods specific to this component
-    this.changeParameters = this.changeParameters.bind(this);
+    this.setParameters = this.setParameters.bind(this);
+    this.saveArticle = this.saveArticle.bind(this);
+    this.setSavedArticles = this.setSavedArticles.bind(this);
   }
   
+  // When component mounts...
   componentDidMount() {
-
+    // Get and display saved articles from database
+    this.getArticlesFromDB();
   }
 
   /**
@@ -44,7 +48,7 @@ export default class Main extends Component {
       helper.runQuery(searchParams).then(results => {
         console.log('Results: ', results);
         // Set 'state' results equal to results returned from query
-        this.setState({ results });
+        this.setResults(results);
       });
     }
     
@@ -54,7 +58,7 @@ export default class Main extends Component {
    * This method allows child components to update the 
    * 'topic' state on this component
    */
-  changeParameters(searchState) {
+  setParameters(searchState) {
     console.log(searchState);
     const { topic, startYear, endYear } = searchState;
 
@@ -66,12 +70,33 @@ export default class Main extends Component {
 
   }
 
-   // This method changes the 'saved' state
-   changeSavedArticles(savedArticles) {
-     
-    this.setState({ savedArticles });
+  setResults(results) {
+    this.setState({ results });
+  }
 
-   }
+  // Saves article passed in from 'Results' when 'save' button pressed
+  saveArticle(article) {
+    // Save article to database
+    helper.postArticle(article);
+    // Get saved articles from database
+    this.getArticlesFromDB();
+  }
+
+  // Retrieves articles from database
+  getArticlesFromDB() {
+    helper.getSavedArticles().then(savedList => {
+      console.log('Saved: ', savedList);
+
+      // Update state
+      this.setSavedArticles(savedList);
+    });
+    
+  }
+
+  // This method changes the 'saved' state
+  setSavedArticles(savedArticles) {
+    this.setState({ savedArticles });
+  }
 
 
   render() {
@@ -84,7 +109,7 @@ export default class Main extends Component {
               {" New York Times Search"}
             </strong>
           </h1>
-          <p>Search for and annotate articles of interest!</p>
+          <p>Search for and save articles of interest!</p>
         </div> 
 
         {/* -- Search Section -- */} 
@@ -92,20 +117,23 @@ export default class Main extends Component {
           <div className="col-sm-12">
             {/** 
               * Render 'Search' component and pass
-              * 'changeParameters' method as a prop
+              * 'setParameters' method as a prop
               */
             }
-            <Route render={() => <Search changeParameters = {this.changeParameters} />} />
+            <Route render={() => <Search setParameters = {this.setParameters} />} />
           </div> 
         </div>
         <div className="row">
           <div className="col-sm-12">
-            <Route path="/results" component={() => <Results results={this.state.results} />} />
+            <Route path="/results" component={() => <Results 
+              results={this.state.results}
+              saveArticle={this.saveArticle} 
+            />} />
           </div>
         </div>
         <div className="row">
           <div className="col-sm-12">
-            <Route render={() => <Saved savedArticles={this.state.savedArticles} />} />
+            <Route component={() => <Saved savedArticles={this.state.savedArticles} />} />
           </div>
         </div>
       </div> 

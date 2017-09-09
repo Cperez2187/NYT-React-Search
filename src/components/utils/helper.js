@@ -10,7 +10,7 @@ const createNYTQuery = (searchParams) => {
 
   // Build query URL
   let queryURL = `https://api.nytimes.com/svc/search/v2/articlesearch.json?api-key=${api_key}&q=${topic}`;
-  queryURL += `&begin_date=${startYear+'0101'}&end_date=${endYear+'0101'}`;
+  queryURL += `&begin_date=${startYear+'0101'}&end_date=${endYear+'1231'}`;
   queryURL += `&fl=${fields}`;
 
   return queryURL;
@@ -43,12 +43,19 @@ const helper = {
 
   // This function hits our own server to retrieve saved articles
   getSavedArticles() {
-    return axios.get("/api");
+    return axios.get("/api").then(savedArticles => {
+      console.log('helper get: ', savedArticles.data);
+      if (savedArticles.data.length === 0) {
+        console.log('Database empty');
+      }
+      return savedArticles.data;
+    });
   },
 
   // This function posts new articles to our database.
-  postArticles(article) {
-    return axios.post("/api", { article });
+  postArticle(article) {
+    console.log('article: ', article);
+    return axios.post("/api", article);
   }
 };
 
