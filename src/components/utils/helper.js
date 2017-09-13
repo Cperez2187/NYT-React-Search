@@ -56,6 +56,14 @@ const helper = {
   postArticle(article) {
     console.log('article: ', article);
     return axios.post("/api", article);
+  },
+
+  // This function deletes an article from our database
+  deleteArticle(article) {
+    console.log('deleting: ', article);
+    return axios.delete("/api", article).then(deletedArticle => {
+      console.log('Article deleted');
+    });
   }
 };
 

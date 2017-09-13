@@ -7,8 +7,8 @@ import React from 'react';
 
 const Results = (props) => {
 
-  // When saved button is pressed...
-  const handleSavedclick = (event) => {
+  // When saved button is clicked...
+  const handleSaveClick = (event) => {
     console.log('Inside click: ', event.target);
     // Get index of article in results array
     const index = parseInt(event.target.value.trim());
@@ -42,7 +42,7 @@ const Results = (props) => {
             className="btn btn-info" 
             type="button"
             value={index}
-            onClick={handleSavedclick}
+            onClick={handleSaveClick}
           >
             Save
           </button>

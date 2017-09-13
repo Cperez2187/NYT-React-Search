@@ -1,14 +1,31 @@
 /**
-|--------------------------------------------------
-| Stateless Saved Component
-|--------------------------------------------------
-*/
+ |--------------------------------------------------
+ | Stateless Saved Component
+ |--------------------------------------------------
+ */
 import React from 'react';
+
 
 const Saved = (props) => {
 
+  const savedArticles = props.savedArticles;
+
+  // When delete button is clicked...
+  const handleDeleteClick = (event) => {
+    console.log('Inside delete click: ', event.target);
+    // Get index of article that will be deleted
+    const index = parseInt(event.target.value.trim());
+    const articleToDelete = savedArticles[index];
+
+    console.log('Article to delete: ', articleToDelete);
+
+    // Delete article from database
+    props.deleteArticle(articleToDelete);
+  }
+
+  // Formats the articles from database, if any
   const displaySavedArticles = () => {
-    const savedArticles = props.savedArticles;
+  
     // Check if there are no savedArticles...
     if (savedArticles.length === 0) {
       return (
@@ -21,7 +38,7 @@ const Saved = (props) => {
     }
 
     // Otherwise format the and return results to display
-    const savedList = savedArticles.map((article, index) => {
+    return savedArticles.map((article, index) => {
       // Separate parameters needed from each article
       const { _id, title, date, url } = article;
       // Create JSX needed to display each article
@@ -37,7 +54,8 @@ const Saved = (props) => {
             <button 
               className="btn btn-info" 
               type="button"
-              value={article}
+              value={index}
+              onClick={handleDeleteClick}
             >
               Delete
             </button>
@@ -45,10 +63,8 @@ const Saved = (props) => {
         </div>
       );
     });
-
-    return savedList;
-
   };
+
 
   return (
     <div className="panel panel-primary">

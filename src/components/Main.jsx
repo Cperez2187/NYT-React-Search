@@ -24,6 +24,7 @@ export default class Main extends Component {
     this.setParameters = this.setParameters.bind(this);
     this.saveArticle = this.saveArticle.bind(this);
     this.setSavedArticles = this.setSavedArticles.bind(this);
+    this.deleteArticle = this.deleteArticle.bind(this);
   }
   
   // When component mounts...
@@ -74,7 +75,7 @@ export default class Main extends Component {
     this.setState({ results });
   }
 
-  // Saves article passed in from 'Results' when 'save' button pressed
+  // Saves article passed in from 'Results' component
   saveArticle(article) {
     // Save article to database
     helper.postArticle(article);
@@ -82,6 +83,14 @@ export default class Main extends Component {
     this.getArticlesFromDB();
   }
 
+  // Deletes article passed in from 'Saved' component
+  deleteArticle(article) {
+    helper.deleteArticle(article).then(deletedArticle => {
+      console.log('Article deleted');
+    });
+    // Get new list from database after deletion
+    this.getArticlesFromDB();
+  }
   // Retrieves articles from database
   getArticlesFromDB() {
     helper.getSavedArticles().then(savedList => {
@@ -133,7 +142,10 @@ export default class Main extends Component {
         </div>
         <div className="row">
           <div className="col-sm-12">
-            <Route component={() => <Saved savedArticles={this.state.savedArticles} />} />
+            <Route component={() => <Saved 
+              savedArticles={this.state.savedArticles}
+              deleteArticle={this.deleteArticle} 
+            />} />
           </div>
         </div>
       </div> 

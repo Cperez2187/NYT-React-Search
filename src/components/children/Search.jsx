@@ -19,7 +19,7 @@ class Search extends Component {
   handleChange(event) {
     const target = event.target;
     this.setState({
-      [target.id]: target.value.trim()
+      [target.id]: target.value
     });
 
   }

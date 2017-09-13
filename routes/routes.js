@@ -32,7 +32,6 @@ module.exports = (app) => {
     const { title, date, url } = req.body;
 
     // Here we'll save the article based on the JSON input.
-
     Article.create({
       title,
       date,
@@ -43,6 +42,22 @@ module.exports = (app) => {
       }
       else {
         console.log("Saved Search");
+      }
+    });
+  });
+
+  // This is the route we will DELETE requests
+  // to delete an article from the database
+  app.delete("/api", (req, res) => {
+    console.log('Delete: ', req.body);
+    const { url } = req.body;
+
+    Article.findOneAndRemove(url, (err) => {
+      if (err) {
+        console.log(err);
+      }
+      else {
+        console.log("Article Deleted");
       }
     });
   });
