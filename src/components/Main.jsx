@@ -86,7 +86,7 @@ export default class Main extends Component {
   // Deletes article passed in from 'Saved' component
   deleteArticle(article) {
     helper.deleteArticle(article).then(deletedArticle => {
-      console.log('Article deleted');
+      console.log('Article deleted: ', deletedArticle);
     });
     // Get new list from database after deletion
     this.getArticlesFromDB();

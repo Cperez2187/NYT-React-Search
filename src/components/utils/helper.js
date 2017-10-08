@@ -7,11 +7,11 @@ const createNYTQuery = (searchParams) => {
   const api_key = '078da0963e154de88d897759e3bc8b29';
   // Only select fields needed
   const fields = 'web_url,headline,pub_date,_id';
-
+  const sort = 'newest';
   // Build query URL
   let queryURL = `https://api.nytimes.com/svc/search/v2/articlesearch.json?api-key=${api_key}&q=${topic}`;
   queryURL += `&begin_date=${startYear+'0101'}&end_date=${endYear+'1231'}`;
-  queryURL += `&fl=${fields}`;
+  queryURL += `&sort=${sort}&fl=${fields}`;
 
   return queryURL;
 }
